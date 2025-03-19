@@ -14,7 +14,6 @@
   </ItemGroup>
 
 </Project> -->
-
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
@@ -22,7 +21,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <!-- Disable fallback folders so that the build doesn't look for Windows-specific paths -->
+    <!-- Disable fallback folders -->
     <RestoreFallbackFolders></RestoreFallbackFolders>
     <RestoreAdditionalProjectFallbackFolders></RestoreAdditionalProjectFallbackFolders>
   </PropertyGroup>
@@ -33,3 +32,4 @@
   </ItemGroup>
 
 </Project>
+
