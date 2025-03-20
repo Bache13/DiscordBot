@@ -10,7 +10,7 @@
         "projectUniqueName": "C:\\Users\\Administrator\\DiscordBotProject\\DiscordBot\\DiscordBot.csproj",
         "projectName": "DiscordBot",
         "projectPath": "C:\\Users\\Administrator\\DiscordBotProject\\DiscordBot\\DiscordBot.csproj",
-        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\Administrator\\DiscordBotProject\\DiscordBot\\packages",
         "outputPath": "C:\\Users\\Administrator\\DiscordBotProject\\DiscordBot\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [

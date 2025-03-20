@@ -949,7 +949,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Administrator\\.nuget\\packages\\": {},
+    "C:\\Users\\Administrator\\DiscordBotProject\\DiscordBot\\packages": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
@@ -958,7 +958,7 @@
       "projectUniqueName": "C:\\Users\\Administrator\\DiscordBotProject\\DiscordBot\\DiscordBot.csproj",
       "projectName": "DiscordBot",
       "projectPath": "C:\\Users\\Administrator\\DiscordBotProject\\DiscordBot\\DiscordBot.csproj",
-      "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+      "packagesPath": "C:\\Users\\Administrator\\DiscordBotProject\\DiscordBot\\packages",
       "outputPath": "C:\\Users\\Administrator\\DiscordBotProject\\DiscordBot\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [

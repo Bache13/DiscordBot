@@ -56,6 +56,22 @@ namespace DiscordBot.Services
                 }
             }
 
+            var raiderHighestKeyService = new RaiderService(raiderToken, "season-tww-2", "world", "all", 0);
+            var highestKey = await raiderHighestKeyService.GetHighestKeyCompletedAsync();
+
+            if (message.Content.Equals("!highest", StringComparison.OrdinalIgnoreCase))
+            {
+                if (highestKey.DungeonName == "Unknown Dungeon" || highestKey.MythicLevel == 0)
+                {
+                    await message.Channel.SendMessageAsync("The highest key wasn't found.");
+                }
+                else
+                {
+                    await message.Channel.SendMessageAsync($"**Highest key:** `{highestKey}`");
+                }
+
+            }
+
             // Ignore messages from other bots
             if (message.Author.IsBot)
                 return;
