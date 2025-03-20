@@ -56,6 +56,7 @@ namespace DiscordBot.Services
                 }
             }
 
+
             var raiderHighestKeyService = new RaiderService(raiderToken, "season-tww-2", "world", "all", 0);
             var highestKey = await raiderHighestKeyService.GetHighestKeyCompletedAsync();
 
