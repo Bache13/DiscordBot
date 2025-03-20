@@ -56,7 +56,6 @@ namespace DiscordBot.Services
                 }
             }
 
-
             var raiderHighestKeyService = new RaiderService(raiderToken, "season-tww-2", "world", "all", 0);
             var highestKey = await raiderHighestKeyService.GetHighestKeyCompletedAsync();
 
@@ -70,7 +69,15 @@ namespace DiscordBot.Services
                 {
                     await message.Channel.SendMessageAsync($"**Highest key:** `{highestKey}`");
                 }
+            }
 
+            if (message.Content.Equals("!popular", StringComparison.OrdinalIgnoreCase))
+            {
+                var processor = new RaiderDataProcessor(raiderToken, "season-tww-2", "eu", "all", 0);
+
+                string popularSpecs = await processor.GetFormattedTopSpecsAsync();
+
+                await message.Channel.SendMessageAsync(popularSpecs);
             }
 
             // Ignore messages from other bots
