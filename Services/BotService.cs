@@ -100,8 +100,49 @@ namespace DiscordBot.Services
                     sb.AppendLine($"`{flask.Key} - {flask.Value}`");
                 }
 
-
                 await message.Channel.SendMessageAsync(sb.ToString());
+            }
+
+            // Rust pop
+
+            if (message.Content.Equals("!main", StringComparison.OrdinalIgnoreCase))
+            {
+                var serverId = 2569573;
+
+                string battleMetricsApiKey = Environment.GetEnvironmentVariable("BATTLEMETRICS_API_KEY")
+                    ?? throw new InvalidOperationException("BATTLEMETRICS_API_KEY environment variable is not valid.");
+
+                var RustService = new RustService(battleMetricsApiKey);
+
+                try
+                {
+                    int currentPlayers = await RustService.GetPlayerCountFromSteviousMain(serverId);
+                    await message.Channel.SendMessageAsync($"**Player count on Stevious Main**: `{currentPlayers}`");
+                }
+                catch (Exception ex)
+                {
+                    await message.Channel.SendMessageAsync($"Error retreiving data: {ex.Message}");
+                }
+            }
+
+            if (message.Content.Equals("!monday", StringComparison.OrdinalIgnoreCase))
+            {
+                var serverId = 3261388;
+
+                string battleMetricsApiKey = Environment.GetEnvironmentVariable("BATTLEMETRICS_API_KEY")
+                    ?? throw new InvalidOperationException("BATTLEMETRICS_API_KEY environment variable is not valid.");
+
+                var RustService = new RustService(battleMetricsApiKey);
+
+                try
+                {
+                    int currentPlayers = await RustService.GetPlayerCountFromSteviousMain(serverId);
+                    await message.Channel.SendMessageAsync($"**Player count on Stevious Monday**: `{currentPlayers}`");
+                }
+                catch (Exception ex)
+                {
+                    await message.Channel.SendMessageAsync($"Error retreiving data: {ex.Message}");
+                }
             }
 
             // Ignore messages from other bots
