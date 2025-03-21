@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MyMplusBot;
+using DiscordBot.Services;
 
 namespace DiscordBot
 {

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Discord.Net.Labs.Interactions</id>
+    <version>3.6.1</version>
+    <authors>Discord.Net Contributors</authors>
+    <owners>Discord.Net Contributors</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/Discord-Net-Labs/Discord.Net-Labs</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/Discord-Net-Labs/Discord.Net-Labs/release/3.x/docs/marketing/logo/PackageLogo.png</iconUrl>
+    <description>A Discord.Net Labs extension adding support for Application Commands.</description>
+    <tags>discord discordapp</tags>
+    <repository type="git" url="git://github.com/Discord-Net-Labs/Discord.Net-Labs" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.6.1">
+        <dependency id="Discord.Net.Labs.Core" version="3.6.1" exclude="Build,Analyzers" />
+        <dependency id="Discord.Net.Labs.Rest" version="3.6.1" exclude="Build,Analyzers" />
+        <dependency id="Discord.Net.Labs.WebSocket" version="3.6.1" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="5.0.0" exclude="Build,Analyzers" />
+        <dependency id="System.Collections.Immutable" version="5.0.0" exclude="Build,Analyzers" />
+        <dependency id="System.Reactive" version="5.0.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETFramework5.0">
+        <dependency id="Discord.Net.Labs.Core" version="3.6.1" exclude="Build,Analyzers" />
+        <dependency id="Discord.Net.Labs.Rest" version="3.6.1" exclude="Build,Analyzers" />
+        <dependency id="Discord.Net.Labs.WebSocket" version="3.6.1" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="5.0.0" exclude="Build,Analyzers" />
+        <dependency id="System.Collections.Immutable" version="5.0.0" exclude="Build,Analyzers" />
+        <dependency id="System.Reactive" version="5.0.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETFramework6.0">
+        <dependency id="Discord.Net.Labs.Core" version="3.6.1" exclude="Build,Analyzers" />
+        <dependency id="Discord.Net.Labs.Rest" version="3.6.1" exclude="Build,Analyzers" />
+        <dependency id="Discord.Net.Labs.WebSocket" version="3.6.1" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="5.0.0" exclude="Build,Analyzers" />
+        <dependency id="System.Collections.Immutable" version="5.0.0" exclude="Build,Analyzers" />
+        <dependency id="System.Reactive" version="5.0.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Discord.Net.Labs.Core" version="3.6.1" exclude="Build,Analyzers" />
+        <dependency id="Discord.Net.Labs.Rest" version="3.6.1" exclude="Build,Analyzers" />
+        <dependency id="Discord.Net.Labs.WebSocket" version="3.6.1" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="5.0.0" exclude="Build,Analyzers" />
+        <dependency id="System.Collections.Immutable" version="5.0.0" exclude="Build,Analyzers" />
+        <dependency id="System.Reactive" version="5.0.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.1">
+        <dependency id="Discord.Net.Labs.Core" version="3.6.1" exclude="Build,Analyzers" />
+        <dependency id="Discord.Net.Labs.Rest" version="3.6.1" exclude="Build,Analyzers" />
+        <dependency id="Discord.Net.Labs.WebSocket" version="3.6.1" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="5.0.0" exclude="Build,Analyzers" />
+        <dependency id="System.Collections.Immutable" version="5.0.0" exclude="Build,Analyzers" />
+        <dependency id="System.Reactive" version="5.0.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

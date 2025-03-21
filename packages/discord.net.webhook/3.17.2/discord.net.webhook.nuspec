@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Discord.Net.Webhook</id>
+    <version>3.17.2</version>
+    <authors>Discord.Net Contributors</authors>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <icon>PackageLogo.png</icon>
+    <readme>NUGET_README.md</readme>
+    <projectUrl>https://github.com/Discord-Net/Discord.Net</projectUrl>
+    <description>A core Discord.Net library containing the Webhook client and models.</description>
+    <tags>discord discordapp</tags>
+    <repository type="git" url="git://github.com/Discord-Net/Discord.Net" commit="3a40b586abf3f7e33f435226b502a2e5a1a071eb" />
+    <dependencies>
+      <group targetFramework="net5.0">
+        <dependency id="Discord.Net.Core" version="3.17.2" exclude="Build,Analyzers" />
+        <dependency id="Discord.Net.Rest" version="3.17.2" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net6.0">
+        <dependency id="Discord.Net.Core" version="3.17.2" exclude="Build,Analyzers" />
+        <dependency id="Discord.Net.Rest" version="3.17.2" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net8.0">
+        <dependency id="Discord.Net.Core" version="3.17.2" exclude="Build,Analyzers" />
+        <dependency id="Discord.Net.Rest" version="3.17.2" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net9.0">
+        <dependency id="Discord.Net.Core" version="3.17.2" exclude="Build,Analyzers" />
+        <dependency id="Discord.Net.Rest" version="3.17.2" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Discord.Net.Core" version="3.17.2" exclude="Build,Analyzers" />
+        <dependency id="Discord.Net.Rest" version="3.17.2" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.1">
+        <dependency id="Discord.Net.Core" version="3.17.2" exclude="Build,Analyzers" />
+        <dependency id="Discord.Net.Rest" version="3.17.2" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

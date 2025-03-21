@@ -2,9 +2,8 @@ using System;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
-using Discord.Rest;
 
-namespace MyMplusBot
+namespace DiscordBot.Services
 {
     public class BotService
     {
@@ -12,7 +11,7 @@ namespace MyMplusBot
 
         public async Task StartAsync()
         {
-
+            // Create the client with the necessary Gateway Intents
             var config = new DiscordSocketConfig
             {
                 GatewayIntents = GatewayIntents.Guilds
@@ -20,67 +19,75 @@ namespace MyMplusBot
                                  | GatewayIntents.MessageContent
             };
 
-            // _client = new DiscordSocketClient(new DiscordSocketConfig
-            // {
-            //     GatewayIntents = GatewayIntents.All
-            // });
-
             _client = new DiscordSocketClient(config);
 
-
+            // Subscribe to log events for debugging
             _client.Log += LogAsync;
 
+            // Replace with your actual bot token
+            string token = Environment.GetEnvironmentVariable("DISCORD_BOT_TOKEN")
+                ?? throw new InvalidOperationException("DISCORD_BOT_TOKEN environment variable is not set");
 
-            string token = "MTM1MTE1NjkyOTk5MjMzMTM1OA.GbO_uY.3gTTW_LjS2zXGmDnEPk30_wAPxzEUSe6phXc7Q";
-
-
+            // Log in and start the bot
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
 
-            _client.Ready += Client_Ready;
-
-            _client.InteractionCreated += OnInteractionCreated;
-
-            await Task.Delay(-1);
-
-
-            // _client.MessageReceived += HandleMessageAsync;
+            // Attach a basic message handler
+            _client.MessageReceived += HandleMessageAsync;
         }
 
-
-        private async Task Client_Ready()
+        private async Task HandleMessageAsync(SocketMessage message)
         {
-            var helloCommand = new SlashCommandBuilder()
-                .WithName("hello")
-                .WithDescription("Bot says hello!")
-                .Build();
+            string raiderToken = Environment.GetEnvironmentVariable("RAIDER_API_TOKEN")
+                ?? throw new InvalidOperationException("RAIDER_API_TOKEN environment variable is not set");
 
-            var byeCommand = new SlashCommandBuilder()
-                .WithName("good bye")
-                .WithDescription("Bot says good bye!")
-                .Build();
+            var raiderService = new RaiderService(raiderToken, "season-tww-2", "eu");
+            var cutoff = await raiderService.GetCutOffAsync();
 
-            var commands = new ApplicationCommandProperties[]
+            if (message.Content.Equals("!cutoff", StringComparison.OrdinalIgnoreCase))
             {
-                helloCommand, byeCommand
-            };
-
-            ulong guildId = 1351153720456642580;
-            var guild = _client.GetGuild(guildId);
-
-            await guild.CreateApplicationCommandAsync(helloCommand);
-        }
-
-        private async Task OnInteractionCreated(SocketInteraction interaction)
-        {
-            if (interaction is SocketSlashCommand slashCommand)
-            {
-                switch (slashCommand.CommandName)
+                if (cutoff.HasValue)
                 {
-                    case "hello":
-                        await slashCommand.RespondAsync("Hello from slash command!");
-                        break;
+                    await message.Channel.SendMessageAsync($"**Cutoff:** `{cutoff}`");
                 }
+                else
+                {
+                    await message.Channel.SendMessageAsync("There was an issue retrieving the data.");
+                }
+            }
+
+            var raiderHighestKeyService = new RaiderService(raiderToken, "season-tww-2", "world", "all", 0);
+            var highestKey = await raiderHighestKeyService.GetHighestKeyCompletedAsync();
+
+            if (message.Content.Equals("!highest", StringComparison.OrdinalIgnoreCase))
+            {
+                if (highestKey.DungeonName == "Unknown Dungeon" || highestKey.MythicLevel == 0)
+                {
+                    await message.Channel.SendMessageAsync("The highest key wasn't found.");
+                }
+                else
+                {
+                    await message.Channel.SendMessageAsync($"**Highest key:** `{highestKey}`");
+                }
+            }
+
+            if (message.Content.Equals("!popular", StringComparison.OrdinalIgnoreCase))
+            {
+                var processor = new RaiderDataProcessor(raiderToken, "season-tww-2", "eu", "all", 0);
+
+                string popularSpecs = await processor.GetFormattedTopSpecsAsync();
+
+                await message.Channel.SendMessageAsync(popularSpecs);
+            }
+
+            // Ignore messages from other bots
+            if (message.Author.IsBot)
+                return;
+
+            // Respond to the !hello command
+            if (message.Content.Equals("!hello", StringComparison.OrdinalIgnoreCase))
+            {
+                await message.Channel.SendMessageAsync("Hello there!");
             }
         }
 
