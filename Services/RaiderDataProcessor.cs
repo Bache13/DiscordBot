@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Discord;
 using Newtonsoft.Json.Linq;
 
 namespace DiscordBot.Services
@@ -26,6 +27,28 @@ namespace DiscordBot.Services
             _httpClient = new HttpClient();
         }
 
+        public async Task<string> GetAllPagesAndMerge()
+        {
+            var mergedRankings = new JArray();
+
+            for (int page = 0; page < _page; page++)
+            {
+                var url = $"https://raider.io/api/v1/mythic-plus/runs?access_key={_accessKey}&season={_season}&region={_region}&dungeon={_dungeon}&page={page}";
+                var response = await _httpClient.GetStringAsync(url);
+                var jsonObject = JObject.Parse(response);
+                var rankings = jsonObject["rankings"] as JArray;
+                if (rankings != null)
+                {
+                    mergedRankings.Merge(rankings);
+                }
+            }
+
+            var mergedObject = new JObject { ["rankings"] = mergedRankings };
+            return mergedObject.ToString();
+        }
+
+
+
         public Dictionary<string, int> GetTopSpecs(string jsonData)
         {
             var specCounts = new Dictionary<string, int>();
@@ -37,7 +60,7 @@ namespace DiscordBot.Services
                 return specCounts;
 
             // Process only the top 20 runs (if available)
-            foreach (var run in rankings.Take(20))
+            foreach (var run in rankings.Take(100))
             {
                 var roster = run["run"]?["roster"];
                 if (roster != null)
@@ -49,7 +72,7 @@ namespace DiscordBot.Services
 
                         if (!string.IsNullOrEmpty(className) && !string.IsNullOrEmpty(specName))
                         {
-                            string comboKey = $"{className} - {specName}";
+                            string comboKey = $"{specName} {className}";
                             if (specCounts.ContainsKey(comboKey))
                                 specCounts[comboKey]++;
                             else
@@ -58,8 +81,13 @@ namespace DiscordBot.Services
                     }
                 }
             }
-
             return specCounts;
+        }
+
+        public async Task<Dictionary<string, int>> GetTopSpecsFromAllPagesAsync()
+        {
+            string mergedJson = await GetAllPagesAndMerge();
+            return GetTopSpecs(mergedJson);
         }
 
         public string FormatMostPopularGroup(Dictionary<string, int> specCounts)
@@ -70,29 +98,59 @@ namespace DiscordBot.Services
 
             var lines = new List<string>
             {
-                "**Spec frequency in top 20 runs:**" // your header
+                "**Spec frequency in top 100 runs:**" // your header
             };
+
+            var sb = new StringBuilder();
+            sb.AppendLine("**Spec frequency in top 100 runs EU:**");
 
             foreach (var kvp in sorted)
             {
-                var parts = kvp.Key.Split(" - ", StringSplitOptions.RemoveEmptyEntries);
-                var spec = (parts.Length > 1) ? parts[1] : parts[0];
-                lines.Add($"`{spec}: {kvp.Value}`");
+                sb.AppendLine($"`{kvp.Key}: {kvp.Value}`");
             }
 
-            // Join them with a newline
-            return string.Join("\n", lines);
+            return sb.ToString();
         }
 
-        public async Task<string> GetFormattedTopSpecsAsync()
-        {
-            var url = $"https://raider.io/api/v1/mythic-plus/runs?access_key={_accessKey}&season={_season}&region={_region}&dungeon={_dungeon}&page={_page}";
-            var response = await _httpClient.GetAsync(url);
-            response.EnsureSuccessStatusCode();
-            string jsonData = await response.Content.ReadAsStringAsync();
 
-            var specCounts = GetTopSpecs(jsonData);
-            return FormatMostPopularGroup(specCounts);
-        }
+        // Original
+        // public async Task<string> GetFormattedTopSpecsAsync()
+        // {
+        //     var url = $"https://raider.io/api/v1/mythic-plus/runs?access_key={_accessKey}&season={_season}&region={_region}&dungeon={_dungeon}&page={_page}";
+        //     var response = await _httpClient.GetAsync(url);
+        //     response.EnsureSuccessStatusCode();
+        //     string jsonData = await response.Content.ReadAsStringAsync();
+
+        //     var specCounts = GetTopSpecs(jsonData);
+        //     return FormatMostPopularGroup(specCounts);
+        // }
+
+
+
+        // public async Task<string> GetFormattedTopSpecsAsync()
+        // {
+        //     string AllPages = "{\"rankings\":[";
+        //     for (int page = 0; page <= _page; page++)
+        //     {
+        //         var url = $"https://raider.io/api/v1/mythic-plus/runs?access_key={_accessKey}&season={_season}&region={_region}&dungeon={_dungeon}&page={page}";
+        //         var response = await _httpClient.GetAsync(url);
+        //         response.EnsureSuccessStatusCode();
+        //         string AllPagesIngenAning = await response.Content.ReadAsStringAsync();
+        //         AllPagesIngenAning = AllPagesIngenAning.Remove(0, 13);
+        //         AllPagesIngenAning = AllPagesIngenAning.Remove(AllPagesIngenAning.Length - 1, 1);
+        //         AllPages += "," + AllPagesIngenAning;
+        //     }
+        //     AllPages = AllPages.Remove(13, 1);
+        //     AllPages += "}";
+
+        //     System.Console.WriteLine(AllPages);
+        //     return "Hej";
+
+        //     // var specCounts = GetTopSpecs(AllPages);
+        //     // return FormatMostPopularGroup(specCounts);
+        // }
     }
 }
+
+
+// {"rankings":[

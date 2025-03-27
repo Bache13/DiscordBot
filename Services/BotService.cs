@@ -74,16 +74,17 @@ namespace DiscordBot.Services
 
             if (message.Content.Equals("!popular", StringComparison.OrdinalIgnoreCase))
             {
-                var processor = new RaiderDataProcessor(raiderToken, "season-tww-2", "eu", "all", 0);
+                var processor = new RaiderDataProcessor(raiderToken, "season-tww-2", "eu", "all", 5);
 
-                string popularSpecs = await processor.GetFormattedTopSpecsAsync();
+                Dictionary<string, int> specCounts = await processor.GetTopSpecsFromAllPagesAsync();
+                string popularSpecs = processor.FormatMostPopularGroup(specCounts);
 
                 await message.Channel.SendMessageAsync(popularSpecs);
             }
 
             if (message.Content.Equals("!flask", StringComparison.OrdinalIgnoreCase))
             {
-                Dictionary<string, string> allFlasks = new Dictionary<string, string>
+                Dictionary<string, string> allFlasks = new()
                 {
                     { "Flask of Tempered Swiftness", "Haste" },
                     { "Flask of Alchemical Chaos", "Random Secondary Stat" },
