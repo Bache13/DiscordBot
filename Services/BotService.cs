@@ -72,9 +72,19 @@ namespace DiscordBot.Services
                 }
             }
 
-            if (message.Content.Equals("!popular", StringComparison.OrdinalIgnoreCase))
+            if (message.Content.Equals("!eu", StringComparison.OrdinalIgnoreCase))
             {
                 var processor = new RaiderDataProcessor(raiderToken, "season-tww-2", "eu", "all", 5);
+
+                Dictionary<string, int> specCounts = await processor.GetTopSpecsFromAllPagesAsync();
+                string popularSpecs = processor.FormatMostPopularGroup(specCounts);
+
+                await message.Channel.SendMessageAsync(popularSpecs);
+            }
+
+            if (message.Content.Equals("!us", StringComparison.OrdinalIgnoreCase))
+            {
+                var processor = new RaiderDataProcessor(raiderToken, "season-tww-2", "us", "all", 5);
 
                 Dictionary<string, int> specCounts = await processor.GetTopSpecsFromAllPagesAsync();
                 string popularSpecs = processor.FormatMostPopularGroup(specCounts);
