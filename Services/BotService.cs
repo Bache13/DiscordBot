@@ -136,6 +136,26 @@ namespace DiscordBot.Services
                 }
             }
 
+            if (message.Content.Equals("!rustinity", StringComparison.OrdinalIgnoreCase))
+            {
+                var serverId = 12747928;
+
+                string battleMetricsApiKey = Environment.GetEnvironmentVariable("BATTLEMETRICS_API_KEY")
+                    ?? throw new InvalidOperationException("BATTLEMETRICS_API_KEY environment variable is not valid.");
+
+                var RustService = new RustService(battleMetricsApiKey);
+
+                try
+                {
+                    int currentPlayers = await RustService.GetPlayerCountFromSteviousMain(serverId);
+                    await message.Channel.SendMessageAsync($"**Player count on Rustinity Monthly Large**: `{currentPlayers}`");
+                }
+                catch (Exception ex)
+                {
+                    await message.Channel.SendMessageAsync($"Error retrieving data: {ex.Message}");
+                }
+            }
+
             if (message.Content.Equals("!monday", StringComparison.OrdinalIgnoreCase))
             {
                 var serverId = 3261388;
